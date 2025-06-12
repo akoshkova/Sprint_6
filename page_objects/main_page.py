@@ -1,112 +1,84 @@
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
-from selenium.common.exceptions import NoSuchElementException
-from base_page import BasePage
-from locators import MainPageLocators, BasePageLocators
-
+from page_objects.base_page import BasePage
+from page_objects.locators import MainPageLocators, BasePageLocators
+from allure import step
 
 class MainPage(BasePage):
-    def __init__(self, browser, url):
-       super().__init__(browser, url)
+    def __init__(self, browser):
+        super().__init__(browser)
+        self.driver.get('https://qa-scooter.praktikum-services.ru/')
 
-    # Методы для работы с FAQ
-    def get_faq_questions(self):
-       return self.find_elements(*MainPageLocators.FAQ_QUESTIONS)
-
+    @step("Открытие ответа FAQ")
     def open_faq_answer(self, question_index):
-        questions = self.get_faq_questions()
-        questions[question_index].click()
-        return self.find_element(*MainPageLocators.FAQ_ANSWERS)
+        question = self.find_elements(MainPageLocators.FAQ_QUESTIONS)[question_index]
+        question.click()
+        return self.find_element(MainPageLocators.FAQ_ANSWERS)
 
-    # Методы для навигации
+    @step("Клик по логотипу")
     def click_self_logo(self):
-        self.find_element(*MainPageLocators.SELF_LOGO).click()
+        self.click(MainPageLocators.SELF_LOGO)
 
-
-    # Методы для заказа
+    @step("Открытие формы заказа")
     def open_order_form(self, top=True):
         if top:
-            self.find_element(*MainPageLocators.ORDER_BUTTON_TOP).click()
+            self.click(MainPageLocators.ORDER_BUTTON_TOP)
         else:
-            self.find_element(*MainPageLocators.ORDER_BUTTON_BOTTOM).click()
+            self.click(MainPageLocators.ORDER_BUTTON_BOTTOM)
 
-    # Методы проверки элементов
+    @step("Проверка видимости шапки")
     def is_header_visible(self):
-        return self.find_element(*MainPageLocators.MAIN_HEADER).is_displayed()
+        return self.is_element_present(MainPageLocators.MAIN_HEADER)
 
+    @step("Проверка видимости футера")
     def is_footer_visible(self):
-        return self.find_element(*MainPageLocators.FOOTER).is_displayed()
+        return self.is_element_present(MainPageLocators.FOOTER)
 
+    @step("Проверка видимости спиннера загрузки")
     def is_loading_spinner_visible(self):
-        return self.find_element(*BasePageLocators.LOADING_SPINNER).is_displayed()
+        return self.is_element_present(BasePageLocators.LOADING_SPINNER)
 
-    # Методы ожидания
-    def wait_for_loading_to_finish(self):
-        self.wait_until_not_visible(*BasePageLocators.LOADING_SPINNER)
-
+    @step("Ожидание появления уведомления")
     def wait_for_notification(self):
-        self.wait_until_visible(*BasePageLocators.NOTIFICATION_BAR)
+        self.wait_for_element_visibility(BasePageLocators.NOTIFICATION_BAR)
 
-    # Вспомогательные методы
-    def wait_until_visible(self, by, value):
-        WebDriverWait(self.browser, 10).until(
-        EC.visibility_of_element_located((by, value))
-        )
-
-    def wait_until_not_visible(self, by, value):
-        WebDriverWait(self.browser, 10).until_not(
-        EC.visibility_of_element_located((by, value))
-        )
-
-    def get_current_url(self):
-        return self.browser.current_url
-
-    def refresh_page(self):
-        self.browser.refresh()
-
-    def get_page_title(self):
-        return self.browser.title
-
-    def is_element_present(self, by):
-        try:
-            self.find_element(by)
-            return True
-        except NoSuchElementException:
-            return False
-
-    def scroll_to_element(self, by):
-        element = self.find_element(by)
-        self.browser.execute_script("arguments[0].scrollIntoView();", element)
-
-    def get_element_text(self, by, value):
-        return self.find_element(by).text
-
-    def get_element_attribute(self, by, value, attribute):
-        return self.find_element(by).get_attribute(attribute)
-
+    @step("Клик по верхней кнопке заказа")
     def click_top_order_button(self):
         self.click(MainPageLocators.ORDER_BUTTON_TOP)
 
+    @step("Клик по нижней кнопке заказа")
     def click_bottom_order_button(self):
         self.click(MainPageLocators.ORDER_BUTTON_BOTTOM)
 
-    def click_scooter_logo(self):
-        self.click(MainPageLocators.SELF_LOGO)
-
+    @step("Клик по логотипу Яндекс")
     def click_yandex_logo(self):
         self.click(MainPageLocators.YANDEX_LOGO)
 
+    @step("Проверка нахождения на главной странице")
     def is_on_main_page(self):
-        return self.browser.current_url.endswith("/")
+        return self.driver.current_url.endswith("/")
 
+    @step("Проверка открытия Яндекс Дзен")
     def is_yandex_zen_open(self):
-        return "zen.yandex.ru" in self.browser.current_url
+        return "zen.yandex.ru" in self.driver.current_url
 
+    @step("Проверка видимости формы заказа")
     def is_order_form_visible(self):
         return self.is_element_present(MainPageLocators.ORDER_FORM)
 
+    @step("Проверка наличия верхней кнопки заказа")
     def is_top_order_button_present(self):
         return self.is_element_present(MainPageLocators.ORDER_BUTTON_TOP)
 
+    @step("Проверка наличия нижней кнопки заказа")
     def is_bottom_order_button_present(self):
         return self.is_element_present(MainPageLocators.ORDER_BUTTON_BOTTOM)
+
+    # Вспомогательные методы для работы с FAQ
+    @step("Получение всех вопросов FAQ")
+    def get_all_faq_questions(self):
+        return [question.text for question in self.find_elements(MainPageLocators.FAQ_QUESTIONS)]
+
+    @step("Получение текста конкретного вопроса FAQ")
+    def get_faq_question_text(self, index):
+        return self.find_elements(MainPageLocators.FAQ_QUESTIONS)[index].text
+
+

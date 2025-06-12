@@ -6,7 +6,7 @@ from selenium.webdriver.support.wait import WebDriverWait
 from webdriver_manager.chrome import ChromeDriverManager
 from page_objects.base_page import BasePage
 
-@pytest.fixture(scope="session")
+@pytest.fixture(scope="function")
 def browser(request):
     browser_name = request.config.getoption("--browser", default="chrome")
     driver = None
@@ -30,10 +30,6 @@ def browser(request):
 def wait(browser):
     return WebDriverWait(browser, 10)
 
-# Фикстура для базовой страницы
-@pytest.fixture
-def main_page(browser) -> BasePage:
-    return BasePage(browser, 'https://qa-scooter.praktikum-services.ru/')
 
 # Фикстура для тестовых данных заказа
 @pytest.fixture

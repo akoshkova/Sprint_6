@@ -81,6 +81,8 @@ class BasePageLocators:
     # Общие элементы
     LOADING_SPINNER = (By.CSS_SELECTOR, ".loading-spinner")
     NOTIFICATION_BAR = (By.CSS_SELECTOR, ".notification-bar")
+    PAGE_LOAD_INDICATOR = (By.CSS_SELECTOR, ".loading-indicator")
+    PAGE_HEADER = (By.CSS_SELECTOR, ".header")
 
     # Навигация
     MAIN_MENU = (By.CSS_SELECTOR, ".main-menu")
@@ -105,71 +107,69 @@ class ProfilePageLocators:
 
 
 class FaqPageLocators:
-    # Основной заголовок страницы
-    FAQ_HEADER = (By.CSS_SELECTOR, '.faq-header')
+    # Общие элементы страницы
+    FAQ_HEADER = (By.CSS_SELECTOR, ".faq-header")
+    SEARCH_FORM = (By.CSS_SELECTOR, ".faq-search-form")
+    SORT_OPTIONS = (By.CSS_SELECTOR, ".faq-sort-options")
+    QUESTION_LIST = (By.CSS_SELECTOR, ".faq-questions-list")
 
     # Вопросы и ответы
-    FAQ_QUESTIONS = (By.CSS_SELECTOR, '.faq-question')
-    FAQ_ANSWERS = (By.CSS_SELECTOR, '.faq-answer')
-
-    # Поиск
-    SEARCH_INPUT = (By.CSS_SELECTOR, '.search-input')
-    SEARCH_BUTTON = (By.CSS_SELECTOR, '.search-button')
-    SEARCH_RESULTS = (By.CSS_SELECTOR, '.search-result')
+    QUESTION_ITEMS = (By.CSS_SELECTOR, ".faq-question-item")
+    QUESTION_TEXT = (By.CSS_SELECTOR, ".faq-question-item:nth-child({index}) .question-text")
+    QUESTION_EXPAND_BUTTON = (By.CSS_SELECTOR, ".faq-question-item:nth-child({index}) .expand-button")
+    ANSWER_TEXT = (By.CSS_SELECTOR, ".faq-question-item:nth-child({index}) .answer-text")
 
     # Сортировка
-    SORT_POPULARITY = (By.CSS_SELECTOR, '.sort-popularity')
-    SORT_RECENT = (By.CSS_SELECTOR, '.sort-recent')
+    SORT_BY = (By.CSS_SELECTOR, ".sort-option[data-sort='{sort_by}']")
+
+    # Поиск
+    SEARCH_INPUT = (By.CSS_SELECTOR, ".search-input")
+    SEARCH_BUTTON = (By.CSS_SELECTOR, ".search-button")
+    SEARCH_RESULTS = (By.CSS_SELECTOR, ".search-result")
+
+    # Навигация по страницам
+    NEXT_PAGE = (By.CSS_SELECTOR, ".next-page-button")
+    PREV_PAGE = (By.CSS_SELECTOR, ".prev-page-button")
+    CURRENT_PAGE = (By.CSS_SELECTOR, ".current-page")
 
     # Обратная связь
-    FEEDBACK_INPUT = (By.CSS_SELECTOR, '.feedback-input')
-    FEEDBACK_BUTTON = (By.CSS_SELECTOR, '.feedback-button')
-    FEEDBACK_SUCCESS = (By.CSS_SELECTOR, '.feedback-success')
-
-    # Пагинация
-    NEXT_PAGE = (By.CSS_SELECTOR, '.next-page')
-    PREVIOUS_PAGE = (By.CSS_SELECTOR, '.previous-page')
-    CURRENT_PAGE = (By.CSS_SELECTOR, '.current-page')
-
-    # Общие элементы
-    LOADING_SPINNER = (By.CSS_SELECTOR, '.loading-spinner')
-    ERROR_MESSAGE = (By.CSS_SELECTOR, '.error-message')
+    FEEDBACK_INPUT = (By.CSS_SELECTOR, ".feedback-input")
+    FEEDBACK_SUBMIT = (By.CSS_SELECTOR, ".feedback-submit")
+    FEEDBACK_SUCCESS = (By.CSS_SELECTOR, ".feedback-success-message")
 
     # Дополнительные элементы
-    FAQ_CATEGORY = (By.CSS_SELECTOR, '.faq-category')
-    FAQ_FILTER = (By.CSS_SELECTOR, '.faq-filter')
-    FAQ_SHARE_BUTTON = (By.CSS_SELECTOR, '.faq-share-button')
-    FAQ_PRINT_BUTTON = (By.CSS_SELECTOR, '.faq-print-button')
+    FAQ_CATEGORIES = (By.CSS_SELECTOR, ".faq-categories")
+    CATEGORY_FILTER = (By.CSS_SELECTOR, ".category-filter[data-category='{category}']")
+    LOADING_INDICATOR = (By.CSS_SELECTOR, ".faq-loading-indicator")
+    NO_RESULTS_MESSAGE = (By.CSS_SELECTOR, ".no-results-message")
 
-    # Модальные окна
-    MODAL_WINDOW = (By.CSS_SELECTOR, '.modal-window')
-    MODAL_CLOSE_BUTTON = (By.CSS_SELECTOR, '.modal-close-button')
+    # Модальное окно
+    MODAL_WINDOW = (By.CSS_SELECTOR, ".faq-modal")
+    MODAL_CLOSE_BUTTON = (By.CSS_SELECTOR, ".modal-close-button")
 
     # Уведомления
-    NOTIFICATION_BAR = (By.CSS_SELECTOR, '.notification-bar')
-    NOTIFICATION_CLOSE_BUTTON = (By.CSS_SELECTOR, '.notification-close-button')
-
-    # Форма обратной связи
-    FEEDBACK_FORM = (By.CSS_SELECTOR, '.feedback-form')
-    FEEDBACK_SUBMIT_BUTTON = (By.CSS_SELECTOR, '.feedback-submit-button')
-    FEEDBACK_CANCEL_BUTTON = (By.CSS_SELECTOR, '.feedback-cancel-button')
-
-    # Настройки отображения
-    VIEW_SETTINGS = (By.CSS_SELECTOR, '.view-settings')
-    VIEW_MODE_SWITCH = (By.CSS_SELECTOR, '.view-mode-switch')
+    SUCCESS_NOTIFICATION = (By.CSS_SELECTOR, ".success-notification")
+    ERROR_NOTIFICATION = (By.CSS_SELECTOR, ".error-notification")
 
     # Избранное
-    FAVORITE_BUTTON = (By.CSS_SELECTOR, '.favorite-button')
-    FAVORITE_LIST = (By.CSS_SELECTOR, '.favorite-list')
+    FAVORITE_BUTTON = (By.CSS_SELECTOR, ".favorite-button")
+    FAVORITE_LIST = (By.CSS_SELECTOR, ".favorite-list")
 
-    # Навигация
-    NAVIGATION_MENU = (By.CSS_SELECTOR, '.navigation-menu')
-    NAVIGATION_ITEM = (By.CSS_SELECTOR, '.navigation-item')
+    # Поделиться
+    SHARE_BUTTON = (By.CSS_SELECTOR, ".share-button")
+    SHARE_MODAL = (By.CSS_SELECTOR, ".share-modal")
 
-    # Лоадеры для отдельных элементов
-    QUESTION_LOADING = (By.CSS_SELECTOR, '.question-loading')
-    ANSWER_LOADING = (By.CSS_SELECTOR, '.answer-loading')
+    # Печать
+    PRINT_BUTTON = (By.CSS_SELECTOR, ".print-button")
 
-    # Специальные элементы
-    ACCESSIBILITY_HINT = (By.CSS_SELECTOR, '.accessibility-hint')
-    SCREEN_READER_ONLY = (By.CSS_SELECTOR, '.screen-reader-only')
+    # Настройки отображения
+    VIEW_OPTIONS = (By.CSS_SELECTOR, ".view-options")
+
+    # Статистика
+    STATISTICS_SECTION = (By.CSS_SELECTOR, ".statistics-section")
+
+    # Языки
+    LANGUAGE_SELECTOR = (By.CSS_SELECTOR, ".language-selector")
+
+    # Версии
+    VERSION_SELECTOR = (By.CSS_SELECTOR, ".version-selector")

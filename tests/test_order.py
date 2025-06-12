@@ -1,59 +1,62 @@
 import pytest
+from allure import title
 from page_objects.order_page import OrderPage
-from page_objects.main_page import MainPage
-from page_objects.locators import OrderPageLocators
+from data import ValidData, InvalidData
 
+class TestOrder:
+    @pytest.fixture(autouse=True)
+    def setup(self, browser):
+        self.order_page = OrderPage(browser)
+        self.order_page.open()
 
-@pytest.mark.smoke
-class TestOrderFlow:
-    @pytest.mark.parametrize("order_data", [
-        {
-            "name": "Иван Петров",
-            "phone": "+79991234567",
-            "address": "г. Москва, ул. Ленина, д. 1",
-            "metro_station": "ВДНХ",
-            "delivery_date": "завтра",
-            "delivery_time": "12:00",
-            "comment": "Доставить до двери"
-        },
-        {
-            "name": "Анна Смирнова",
-            "phone": "+79997654321",
-            "address": "г. Санкт-Петербург, пр. Ленина, д. 2",
-            "metro_station": "Технологический институт",
-            "delivery_date": "послезавтра",
-            "delivery_time": "14:00",
-            "comment": "Оставить у двери"
-        }
-    ])
-    @pytest.mark.parametrize("order_entry_point", ["top_button", "bottom_button"])
-    def test_full_order_flow(self, main_page: MainPage, wait, order_data, order_entry_point):
-        # Открытие формы заказа
-        if order_entry_point == "top_button":
-            main_page.click_top_order_button()
-        else:
-            main_page.click_bottom_order_button()
+    @title('Оформление заказа с валидными данными')
+    def test_order_with_valid_data(self):
+        self.order_page.fill_form(
+            ValidData.name,
+            ValidData.phone,
+            ValidData.address
+        )
+        self.order_page.submit_order()
+        assert self.order_page.is_order_success()
 
-        # Заполнение формы заказа
-        order_page = OrderPage(browser)
-        order_page.fill_name(order_data["name"])
-        order_page.fill_phone(order_data["phone"])
-        order_page.fill_address(order_data["address"])
-        order_page.select_metro_station(order_data["metro_station"])
-        order_page.select_delivery_date(order_data["delivery_date"])
-        order_page.select_delivery_time(order_data["delivery_time"])
-        order_page.fill_comment(order_data["comment"])
-        order_page.click_order_button()
+    @title('Оформление заказа с некорректным именем')
+    def test_order_with_invalid_name(self):
+        self.order_page.fill_form(
+            InvalidData.name_too_short,
+            ValidData.phone,
+            ValidData.address
+        )
+        self.order_page.submit_order()
+        assert self.order_page.is_name_error_present()
 
-        # Проверка успешного создания заказа
-        wait.until(lambda driver: driver.find_element(*OrderPageLocators.SUCCESS_MESSAGE))
-        assert order_page.is_success_message_present(), "Сообщение об успешном заказе не появилось"
+    @title('Оформление заказа с некорректным номером телефона')
+    def test_order_with_invalid_phone(self):
+        self.order_page.fill_form(
+            ValidData.name,
+            InvalidData.phone_invalid,
+            ValidData.address
+        )
+        self.order_page.submit_order()
+        assert self.order_page.is_phone_error_present()
 
-    def test_logo_navigation(self, main_page: MainPage):
-        # Проверка навигации по логотипу Самоката
-        main_page.click_scooter_logo()
-        assert main_page.is_on_main_page(), "Не удалось перейти на главную страницу Самоката"
+    @title('Оформление заказа с пустым полем адреса')
+    def test_order_with_empty_address(self):
+        self.order_page.fill_form(
+            ValidData.name,
+            ValidData.phone,
+            ''
+        )
+        self.order_page.submit_order()
+        assert self.order_page.is_address_error_present()
 
-        # Проверка навигации по логотипу Яндекса
-        main_page.click_yandex_logo()
-        assert main_page.is_yandex_zen_open(), "Не удалось перейти на Дзен через логотип Яндекса"
+    @title('Проверка валидации всех полей при пустом заполнении')
+    def test_order_with_empty_fields(self):
+        self.order_page.submit_order()
+        assert self.order_page.is_name_error_present()
+        assert self.order_page.is_phone_error_present()
+        assert self.order_page.is_address_error_present()
+
+    @title('Проверка закрытия формы заказа')
+    def test_close_order_form(self):
+        self.order_page.close_form()
+        assert self.order_page.is_form_closed()
