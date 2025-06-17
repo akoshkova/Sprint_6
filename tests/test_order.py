@@ -5,8 +5,8 @@ from data import ValidData, InvalidData
 
 class TestOrder:
     @pytest.fixture(autouse=True)
-    def setup(self, browser):
-        self.order_page = OrderPage(browser)
+    def setup(self, driver):
+        self.order_page = OrderPage(driver)
         self.order_page.open()
 
     @title('Оформление заказа с валидными данными')

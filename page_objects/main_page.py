@@ -3,9 +3,9 @@ from page_objects.locators import MainPageLocators, BasePageLocators
 from allure import step
 
 class MainPage(BasePage):
-    def __init__(self, browser):
-        super().__init__(browser)
-        self.driver.get('https://qa-scooter.praktikum-services.ru/')
+    def __init__(self, driver):
+        super().__init__(driver)
+        self.locators = MainPageLocators
 
     @step("Открытие ответа FAQ")
     def open_faq_answer(self, question_index):
@@ -80,5 +80,13 @@ class MainPage(BasePage):
     @step("Получение текста конкретного вопроса FAQ")
     def get_faq_question_text(self, index):
         return self.find_elements(MainPageLocators.FAQ_QUESTIONS)[index].text
+
+    @step("Проверка загрузки страницы")
+    def is_page_loaded(self):
+        return self.is_visible(MainPageLocators.PAGE_LOAD_INDICATOR)
+
+    @step("Проверка наличия заголовка страницы")
+    def has_page_header(self):
+        return self.is_visible(MainPageLocators.PAGE_HEADER)
 
 

@@ -2,33 +2,25 @@ import pytest
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.chrome.service import Service
-from selenium.webdriver.support.wait import WebDriverWait
 from webdriver_manager.chrome import ChromeDriverManager
 from page_objects.base_page import BasePage
 
 @pytest.fixture(scope="function")
-def browser(request):
-    browser_name = request.config.getoption("--browser", default="chrome")
-    driver = None
+def driver():
+    chrome_options = Options()
+    chrome_options.add_argument("--start-maximized")
 
-    try:
-        if browser_name == "chrome":
-            options = Options()
-            options.add_argument("--start-maximized")
-            service = Service(ChromeDriverManager().install())
-            driver = webdriver.Chrome(service=service, options=options)
-        else:
-            raise ValueError(f"Браузер {browser_name} не поддерживается")
+    driver = webdriver.Chrome(
+        service=Service(ChromeDriverManager().install()),
+        options=chrome_options
+    )
 
-        yield driver
-
-    finally:
-        if driver:
-            driver.quit()
+    yield driver
+    driver.quit()
 
 @pytest.fixture
-def wait(browser):
-    return WebDriverWait(browser, 10)
+def base_page(driver):
+    return BasePage(driver)
 
 
 # Фикстура для тестовых данных заказа

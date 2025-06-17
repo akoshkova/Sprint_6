@@ -5,7 +5,7 @@ from page_objects.base_page import BasePage
 class FaqPage(BasePage):
     def __init__(self, driver):
         super().__init__(driver)
-        self.base_url = '/faq'
+        self.locators = FaqPageLocators
 
     @step("Открытие страницы FAQ")
     def open(self):
@@ -62,7 +62,7 @@ class FaqPage(BasePage):
         return self.get_element_text(FaqPageLocators.CURRENT_PAGE) == str(page_number)
 
     @step("Проверка наличия всех обязательных элементов")
-    def is_page_fully_loaded(self):
+    def is_page_loaded(self):
         return (
             self.is_visible(FaqPageLocators.FAQ_HEADER) and
             self.is_visible(FaqPageLocators.SEARCH_FORM) and

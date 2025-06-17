@@ -5,11 +5,15 @@ from page_objects.base_page import BasePage
 class OrderPage(BasePage):
     def __init__(self, driver):
         super().__init__(driver)
-        self.base_url = '/order'
+        self.locators = OrderPageLocators
 
-    @step("Открытие страницы заказа")
-    def open(self):
-        super().open(self.base_url)
+    @step("Переход на страницу заказа")
+    def open_order_page(self):
+        self.open(self.locators.ORDER_URL)
+
+    @step("Проверка загрузки страницы заказа")
+    def is_order_page_loaded(self):
+        return self.is_visible(self.locators.ORDER_PAGE_HEADER)
 
     @step("Заполнение формы заказа")
     def fill_form(self, name, phone, address):

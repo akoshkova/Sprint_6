@@ -1,7 +1,6 @@
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from allure import step
-from page_objects.locators import BasePageLocators
 
 class BasePage:
     DEFAULT_TIMEOUT = 15
@@ -96,13 +95,6 @@ class BasePage:
     def is_success_message_present(self, locator):
         return self.is_visible(locator) and self.get_element_text(locator).lower().find('успешно') != -1
 
-    @step("Проверка загрузки страницы")
-    def is_page_loaded(self):
-        return self.is_visible(BasePageLocators.PAGE_LOAD_INDICATOR)
-
-    @step("Проверка наличия заголовка страницы")
-    def has_page_header(self):
-        return self.is_visible(BasePageLocators.PAGE_HEADER)
 
     @step("Проверка наличия футера страницы")
     def has_page_footer(self):

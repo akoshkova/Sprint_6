@@ -19,9 +19,16 @@ class MainPageLocators:
     MAIN_HEADER = (By.CSS_SELECTOR, ".main-header")
     MAIN_CONTENT = (By.CSS_SELECTOR, ".main-content")
     FOOTER = (By.CSS_SELECTOR, ".footer")
+    PAGE_LOAD_INDICATOR = (By.CSS_SELECTOR, ".loading-indicator")
+    PAGE_HEADER = (By.CSS_SELECTOR, ".header")
 
 
 class OrderPageLocators:
+
+    ORDER_URL = "https://qa-scooter.praktikum-services.ru/"
+    ORDER_PAGE_HEADER = (By.CSS_SELECTOR, "h1:contains('Доставка')")
+    ORDER_FORM = (By.CSS_SELECTOR, "form#order-form")
+
     # Поля ввода
     NAME_FIELD = (By.CSS_SELECTOR, "input[name='name']")
     PHONE_FIELD = (By.CSS_SELECTOR, "input[name='phone']")
@@ -81,8 +88,6 @@ class BasePageLocators:
     # Общие элементы
     LOADING_SPINNER = (By.CSS_SELECTOR, ".loading-spinner")
     NOTIFICATION_BAR = (By.CSS_SELECTOR, ".notification-bar")
-    PAGE_LOAD_INDICATOR = (By.CSS_SELECTOR, ".loading-indicator")
-    PAGE_HEADER = (By.CSS_SELECTOR, ".header")
 
     # Навигация
     MAIN_MENU = (By.CSS_SELECTOR, ".main-menu")
