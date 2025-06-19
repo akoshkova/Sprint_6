@@ -52,13 +52,6 @@ class MainPage(BasePage):
     def click_yandex_logo(self):
         self.click(MainPageLocators.YANDEX_LOGO)
 
-    @step("Проверка нахождения на главной странице")
-    def is_on_main_page(self):
-        return self.driver.current_url.endswith("/")
-
-    @step("Проверка открытия Яндекс Дзен")
-    def is_yandex_zen_open(self):
-        return "zen.yandex.ru" in self.driver.current_url
 
     @step("Проверка видимости формы заказа")
     def is_order_form_visible(self):

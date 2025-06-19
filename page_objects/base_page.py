@@ -1,6 +1,7 @@
 from selenium.webdriver.support.wait import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.support import expected_conditions as es
 from allure import step
+
 
 class BasePage:
     DEFAULT_TIMEOUT = 15
@@ -20,11 +21,11 @@ class BasePage:
 
     @step("Нахождение элемента")
     def find_element(self, locator):
-        return self.wait.until(EC.presence_of_element_located(locator))
+        return self.wait.until(es.presence_of_element_located(locator))
 
     @step("Нахождение списка элементов")
     def find_elements(self, locator):
-        return self.wait.until(EC.presence_of_all_elements_located(locator))
+        return self.wait.until(es.presence_of_all_elements_located(locator))
 
     @step("Клик по элементу")
     def click(self, locator):
@@ -45,7 +46,7 @@ class BasePage:
 
     @step("Ожидание исчезновения элемента")
     def wait_for_invisibility(self, locator):
-        self.wait.until(EC.invisibility_of_element_located(locator))
+        self.wait.until(es.invisibility_of_element_located(locator))
 
     @step("Проверка наличия элемента")
     def is_element_present(self, locator):
@@ -69,11 +70,11 @@ class BasePage:
 
     @step("Ожидание появления элемента")
     def wait_for_element_visibility(self, locator):
-        self.wait.until(EC.visibility_of_element_located(locator))
+        self.wait.until(es.visibility_of_element_located(locator))
 
     @step("Ожидание кликабельности элемента")
     def wait_for_element_clickable(self, locator):
-        self.wait.until(EC.element_to_be_clickable(locator))
+        self.wait.until(es.element_to_be_clickable(locator))
 
     @step("Проверка URL страницы")
     def is_current_url(self, expected_url):
@@ -94,7 +95,6 @@ class BasePage:
     @step("Проверка наличия сообщения об успехе")
     def is_success_message_present(self, locator):
         return self.is_visible(locator) and self.get_element_text(locator).lower().find('успешно') != -1
-
 
     @step("Проверка наличия футера страницы")
     def has_page_footer(self):

@@ -81,10 +81,6 @@ class FaqPage(BasePage):
                 return False
         return True
 
-    @step("Получение всех вопросов")
-    def get_all_questions(self):
-        return self.driver.find_elements(*FaqPageLocators.QUESTION_ITEMS)
-
     @step("Получение ID вопроса по индексу")
     def get_question_id(self, index):
         return self.get_element_attribute(FaqPageLocators.QUESTION_ITEMS.format(index=index), 'id')
